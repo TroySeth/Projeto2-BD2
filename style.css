@@ -17,6 +17,18 @@ body{
 }
 
 
+.add {
+    position: fixed;
+    background-color: var(--green);
+    color: var(--white);
+    top: 1rem;
+    left: 1rem;
+    border-radius: 3px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border: none;
+}
+
 
 .note{
     background-color: var(--white);
@@ -24,12 +36,11 @@ body{
     margin: 30px 20px;
     height: 100px;
     width: 400px;
-    border-radius: 90rem;
 }
 
 .configuration .title{
     color: var(--white);
-    justify-content: flex-start;
+    justify-content: start;
     
 }
 
