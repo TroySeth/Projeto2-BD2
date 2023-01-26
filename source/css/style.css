@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Unbounded&display=swap');
 :root{
     --white: #fff;
     --green: #16b908;
@@ -9,13 +10,26 @@
 }
 
 body{
-    
     margin: 0;
     flex-wrap: wrap;
     display: flex;
     background-color: rgb(223, 223, 223);
 }
 
+header{
+    width: 100%;
+    background-color: #303440;
+    border-bottom: 2px solid #000000;
+}
+
+#cabecalho{
+    font-family: 'Unbounded', cursive;
+    box-sizing: border-box;
+    margin: -15px 2% -15px 2%;
+}
+#cabecalho h1{
+    color: #BF4E63;
+}
 
 .add {
     position: fixed;
