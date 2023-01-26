@@ -25,10 +25,27 @@ header{
 #cabecalho{
     font-family: 'Unbounded', cursive;
     box-sizing: border-box;
-    margin: -15px 2% -15px 2%;
+    margin: -5px 2% -5px 2%;
+    display: flex;
+    flex-direction: row ;
+    align-items: center;
+    justify-content: space-between;
 }
 #cabecalho h1{
     color: #BF4E63;
+}
+#cabecalho img{
+    width: 30px;
+    height: 30px;
+}
+#cabecalho figure{
+    text-align: center;
+    color: #fff;
+    font-size: 10px;
+}
+#cabecalho figure a{
+    color: #fff;
+    text-decoration: none;
 }
 
 .add {
