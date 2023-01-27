@@ -1,6 +1,6 @@
-const router = require('express').Router()
-const res = require('express/lib/response')
-const Note = require('../models/Note')
+/*const router = require('express').Router();
+const app = require('../app');
+const Note = require('../models/Note');
 
 //route of creation
 app.post('/', async (req, res) => {
@@ -28,7 +28,7 @@ app.post('/', async (req, res) => {
 
 // Read of notes
 
-router.get('/', assync (req, res) =>{
+router.get('/', async (req, res) =>{
     try {
         const notes = await note.find()
 
@@ -39,7 +39,7 @@ router.get('/', assync (req, res) =>{
 })
 
 //find note for title
-router.get('/:title', assync(req, res)=>{
+router.get('/:title', async (req, res)=>{
     const title = req.params.title
 
     try {
@@ -53,4 +53,4 @@ router.get('/:title', assync(req, res)=>{
 
 //more routes
 
-module.exports = router
+module.exports = {router};*/
