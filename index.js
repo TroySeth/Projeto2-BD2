@@ -5,11 +5,12 @@ const app = express()
 
 const Note = require('./models/Note')
 
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(__dirname));
 
-app.get('/', (req, res) => {
-    res.send('<h1>INotas</h1>')
-})
+app.get('/', async(req, res) => {
+    res.sendFile(__dirname + '/source/html/index.html');
+});
 
 
 app.post('/addnote', async (req, res) => {
