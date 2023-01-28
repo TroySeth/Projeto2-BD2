@@ -5,11 +5,11 @@ async function create (req, res){
         new noteModel({
             title: req.body.title,
             content: req.body.content,
+            date: noteModel.date,
         }).save()
-        const response = await noteModel.create;
-        res.status(201).json({response, msg: "Nota criada com sucesso."}).redirect('/source/html/index.html');
-    } catch(err){
-        console.log("Erro ao criar nota.");
+        res.status(201).redirect('/');
+    } catch(error){
+        console.log({error});
     }
 };
 
