@@ -1,16 +1,16 @@
 const express = require('express');
 const db = require('./db/db');
-/*const noteRoutes = require('./routes/noteRoutes');*/
 const app = express();
-db.Connect();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 
-// Routes
-const routes = require('./routes/router');
+db.Connect();
 
-app.use('/api', routes);
+// Routes
+const routes = require('./routes/routes');
+
+app.use(routes);
 
 app.get('/', async(req, res) => {
     res.sendFile(__dirname + '/source/html/index.html');
@@ -24,4 +24,4 @@ app.delete('/:id', async (req, res) => {
 
 app.listen(3000, function(){
     console.log("App running on port 3000");
-})    
+});

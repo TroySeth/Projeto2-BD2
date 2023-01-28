@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
-
 const {Schema} = mongoose;
-const {noteSchema} = require('./Anotations');
 
 const noteSchema = new Schema({
     title: String,
