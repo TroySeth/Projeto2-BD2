@@ -8,7 +8,10 @@ const DB_CODE = process.env.DB_CODE;
 
 const connect = function (){
     mongoose.set('strictQuery', true);
-    mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_NAME}.${DB_CODE}.mongodb.net/?retryWrites=true&w=majority`).then(() =>{
+    mongoose.Promise = global.Promise;
+    mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_NAME}.${DB_CODE}.mongodb.net/?retryWrites=true&w=majority`)
+    .then(() =>{
+        useMongoClient: true;
         console.log('conectou ao MongoDB!');
     }).catch((err) => console.log(err));
 }

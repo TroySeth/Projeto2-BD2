@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('./db/db');
+const noteController = require('./controllers/noteController');
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));

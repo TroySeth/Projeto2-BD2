@@ -1,19 +1,16 @@
 const {Note: noteModel} = require('../models/Note');
 
-const noteController = {
-    create: async (req, res) => {
-        try{
-            const note = {
-                title: req.body.title,
-                content: req.body.content,
-            };
-            const response = await noteModel.create(note);
-            res.status(201).json({response, msg: "Nota criada com sucesso."});
-
-        } catch(error){
-            console.log(error);
-        }
+async function create (req, res){
+    try{
+        new noteModel({
+            title: req.body.title,
+            content: req.body.content,
+        }).save()
+        const response = await noteModel.create;
+        res.status(201).json({response, msg: "Nota criada com sucesso."}).redirect('/source/html/index.html');
+    } catch(err){
+        console.log("Erro ao criar nota.");
     }
-}
+};
 
-module.exports = {noteController};
+module.exports = {create};
