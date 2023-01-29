@@ -48,6 +48,15 @@ header{
     color: #fff;
     text-decoration: none;
 }
+
+#cardNote button{
+    background-color: transparent;
+    color: var(--white);
+    cursor: pointer;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+    border: none;
+}
 /*
 .add {
     position: fixed;
