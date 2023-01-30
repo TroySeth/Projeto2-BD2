@@ -5,6 +5,7 @@ const {handlebars, engine} = require('express-handlebars');
 const noteController = require('./controllers/noteController');
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json())
 app.use(express.static(__dirname));
 
 // Connecting to the database

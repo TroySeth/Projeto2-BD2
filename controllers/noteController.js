@@ -29,13 +29,17 @@ async function findAll (req, res){
 
 // Função de pesquisar por palavras
 async function findText (req, res){
-    await noteModel.find(
+    console.log(req.body.pesquisa)
+
+    const filtrado = await noteModel.find(
         { $text: { $search : req.body.pesquisa } },  
         { score : { $meta: "textScore" } 
         } 
     ).sort( 
         {  score: { $meta : 'textScore' } }
     )
+    
+    res.json(filtrado)
 }
 
 // Função de editar notas do banco
