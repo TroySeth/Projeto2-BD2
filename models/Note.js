@@ -9,6 +9,10 @@ const noteSchema = mongoose.Schema({
     date: {type: Date, default: date},
 });
 
+noteSchema.index(
+    { title: 'text', content: 'text'}, { weights: { title: 2, content: 1}}
+)
+
 // Definindo a collection
 const Note = mongoose.model('Note', noteSchema);
 

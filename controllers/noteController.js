@@ -27,6 +27,17 @@ async function findAll (req, res){
     }
 )};
 
+// Função de pesquisar por palavras
+async function findText (req, res){
+    await noteModel.find(
+        { $text: { $search : req.body.pesquisa } },  
+        { score : { $meta: "textScore" } 
+        } 
+    ).sort( 
+        {  score: { $meta : 'textScore' } }
+    )
+}
+
 // Função de editar notas do banco
 async function editNote (req, res){
     try{
@@ -50,4 +61,4 @@ async function destroyNote (req, res){
     }
 )};
 
-module.exports = {create, findAll, editNote, destroyNote};
+module.exports = {create, findAll, editNote, destroyNote, findText};
