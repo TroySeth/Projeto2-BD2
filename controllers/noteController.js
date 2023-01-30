@@ -17,10 +17,22 @@ async function create (req, res){
 async function findAll (req, res){
     await noteModel.find().lean().then((Note) => {
         res.render('partials/initial', {Note: Note});
-        console.log("Notas recuperadas.");
+        console.log("Notas atualizadas.");
     }).catch((error) => {
         console.log("Falha ao recuperar as notas: " + error );
     }
 )};
 
-module.exports = {create, findAll};
+async function editNote (req, res){
+}
+
+async function destroyNote (req, res){
+        await noteModel.remove({_id: req.body.id}).then(() => {
+            console.log("Nota removida com sucesso");
+            res.redirect('/');
+    }).catch((error) => {
+        console.log("Erro ao deletar nota." + error);
+    }
+)};
+
+module.exports = {create, findAll, editNote, destroyNote};

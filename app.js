@@ -13,19 +13,9 @@ db.Connect();
 app.engine('handlebars', engine({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-// Routes
+// Using routes
 const routes = require('./routes/routes');
 app.use('/', routes);
-
-app.get('/', async(req, res) => {
-    res.render('partials/initial');
-});
-
-app.patch('/:id', async (req, res) => {
-});
-
-app.delete('/:id', async (req, res) => {
-});
 
 app.listen(3000, function(){
     console.log("App running on port 3000");

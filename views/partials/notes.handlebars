@@ -1,13 +1,19 @@
 {{#each Note}}
 <div id="cardNote" class="d-flex justify-content-center ml-2 mr-2">
   <div class="card text-white bg-dark m-3" style="max-width: 18rem;">
-    <div class="card-header">
-      <button class="edit">
-        <i class="fas fa-edit"></i>
-      </button>
-      <button class="delete">
-        <i class="fas fa-trash-alt"></i>
-      </button>
+    <div class="card-header d-flex">
+      <form action="/" method="patch">
+      <input type="hidden" name="id" value="{{_id}}">
+        <button class="edit" type="submit">
+          <i class="fas fa-edit"></i>
+        </button>
+      </form>
+      <form action="/delete" method="post">
+      <input type="hidden" name="id" value="{{_id}}">
+        <button class="delete" type="submit">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </form>
     </div>
     <div class="card-body text-light">
       <h5 class="card-title">{{title}}</h5>
