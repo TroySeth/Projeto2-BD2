@@ -24,6 +24,7 @@ async function findAll (req, res){
 )};
 
 async function editNote (req, res){
+    
 }
 
 async function destroyNote (req, res){

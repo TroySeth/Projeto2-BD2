@@ -1,13 +1,15 @@
 {{#each Note}}
-<div id="cardNote" class="d-flex justify-content-center ml-2 mr-2">
-  <div class="card text-white bg-dark m-3" style="max-width: 18rem;">
+<div id="cardNote" class="float-left ml-4 mr-4 mb-2">
+  <div class="card text-white bg-dark ml-0 mr-0 mt-3" style="max-width: 17rem;">
     <div class="card-header d-flex justify-content-end">
-      <form action="/" method="patch">
-      <input type="hidden" name="id" value="{{_id}}">
-        <button class="edit" type="submit">
+      <div class="dropdown edit dropleft">
+        <button class="btn-secondary dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-edit"></i>
         </button>
-      </form>
+        <div class="dropdown-menu border-primary" aria-labelledby="dropdownMenuButton">
+          {{>edit}}
+        </div>
+      </div>
       <form action="/delete" method="post">
       <input type="hidden" name="id" value="{{_id}}">
         <button class="delete" type="submit">
