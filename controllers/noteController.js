@@ -27,7 +27,7 @@ async function editNote (req, res){
 }
 
 async function destroyNote (req, res){
-        await noteModel.remove({_id: req.body.id}).then(() => {
+        await noteModel.deleteOne({_id: req.body.id}).then(() => {
             console.log("Nota removida com sucesso");
             res.redirect('/');
     }).catch((error) => {
