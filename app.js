@@ -15,7 +15,7 @@ app.set('view engine', 'handlebars');
 
 // Routes
 const routes = require('./routes/routes');
-app.use(routes);
+app.use('/', routes);
 
 app.get('/', async(req, res) => {
     res.render('partials/initial');
