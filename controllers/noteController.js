@@ -1,5 +1,6 @@
 const {Note: noteModel, Note} = require('../models/Note');
 const db = require('../db/db');
+const { set } = require('mongoose');
 
 async function create (req, res){
     try{
@@ -17,15 +18,20 @@ async function create (req, res){
 async function findAll (req, res){
     await noteModel.find().lean().then((Note) => {
         res.render('partials/initial', {Note: Note});
-        console.log("Notas atualizadas.");
+        console.log("Notas sincronizadas.");
     }).catch((error) => {
         console.log("Falha ao recuperar as notas: " + error );
     }
 )};
 
 async function editNote (req, res){
-    
-}
+    try{
+        await noteModel.updateOne({_id: req.body.id},{title: req.body.title, content: req.body.content});
+        res.redirect('/');
+    } catch(error){
+        console.log(error);
+    }
+};
 
 async function destroyNote (req, res){
         await noteModel.deleteOne({_id: req.body.id}).then(() => {
