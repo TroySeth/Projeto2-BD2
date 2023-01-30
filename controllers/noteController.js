@@ -32,14 +32,16 @@ async function findText (req, res){
     console.log(req.body.pesquisa)
 
     const filtrado = await noteModel.find(
-        { $text: { $search : req.body.pesquisa } },  
+        { $text: { $search : req.body.pesquisa} },  
         { score : { $meta: "textScore" } 
         } 
     ).sort( 
         {  score: { $meta : 'textScore' } }
-    )
+    ).lean().then((Note) => {
+        res.render('partials/initial', {Note: Note});
+        console.log("Notas sincronizadas.");
+    })
     
-    res.json(filtrado)
 }
 
 // Função de editar notas do banco

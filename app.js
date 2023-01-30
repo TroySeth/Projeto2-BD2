@@ -5,7 +5,7 @@ const {handlebars, engine} = require('express-handlebars');
 const noteController = require('./controllers/noteController');
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json())
+//app.use(express.json())
 app.use(express.static(__dirname));
 
 // Connecting to the database
@@ -20,6 +20,6 @@ const routes = require('./routes/routes');
 app.use('/', routes);
 
 
-app.listen(3000, function(){
+app.listen(8000, function(){
     console.log("App running on port 3000");
 });
