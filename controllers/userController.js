@@ -52,7 +52,7 @@ async function signin (req, res){
     )
         const tokenBearrer = `Bearer ${token}`
 
-        //req.session.user = user
+        req.session.user = user
 
         res.cookie('token_acesso', tokenBearrer, { maxAge: 3600000})
         res.redirect('/')
@@ -70,11 +70,11 @@ async function isAuthenticated (req, res, next){
 
             return next()
         } catch(e){
-            //req.session.user = null
+            req.session.user = null
             return res.redirect('/signin')
         }
     } else{
-        //req.session.user = null
+        req.session.user = null
         return res.redirect('/signin')
     }
 }

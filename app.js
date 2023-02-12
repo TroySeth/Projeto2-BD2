@@ -4,11 +4,24 @@ const db = require('./db/db');
 const {handlebars, engine} = require('express-handlebars');
 const noteController = require('./controllers/noteController');
 const cookieParser = require('cookie-parser');
+const session = require('express-session')
+const MongoStore = require('connect-mongo')
 
+const mongoDBurl = 'mongodb+srv://leonardo:VuvQtFQXwvPnk90W@cluster0.fcutvj8.mongodb.net/?retryWrites=true&w=majority'
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 app.use(express.static(__dirname));
 app.use(cookieParser());
+app.use(
+    session({
+        secret: process.env.SECRET,
+        store: MongoStore.create({mongoUrl: mongoDBurl}),
+        name: 'sessionId',
+        resave: false,
+        saveUninitialized: true,
+        cookie: {  maxAge : 7  *  24  *  60  *  60  *  1000 } 
+    })
+);
 
 // Connecting to the database
 db.Connect();
