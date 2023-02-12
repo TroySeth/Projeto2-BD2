@@ -31,4 +31,22 @@ async function signin (req, res){
     res.json(username + ' está logado!')
 }
 
+async function isAuthenticated (req, res, next){
+    const { access_token } = req.cookies
+    if(access_token){
+        try{
+            const [, token] = access_token.split(' ')
+            await jwt.verify(token, process.env.SECRET)
+
+            return next()
+        } catch(e){
+            //req.session.user = null
+            return res.redirect('/signin')
+        }
+    } else{
+        //req.session.user = null
+        return res.redirect('/signin')
+    }
+}
+
 module.exports = {create, signin}
