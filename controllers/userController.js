@@ -1,32 +1,31 @@
 const {user: userModel, user} = require('../models/User');
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 async function create (req, res){
-    const {name, username, email, password} = req.body
-
-    const haveEmail = await userModel.findOne({email: email})
-    const haveUser = await userModel.findOne({username: username})
+    const {name, username, email, password} = req.body;
+    const haveEmail = await userModel.findOne({email: email});
+    const haveUser = await userModel.findOne({username: username});
 
     if(haveEmail){
-        return res.status(422).json('email já cadastrado, tente com outro email!')
+        return res.status(422).json('Email já cadastrado, tente com outro email!');
     }
     if(haveUser){
-        return res.status(422).json('usuário já existe, tente com outro usuário!')
+        return res.status(422).json('Usuário já existe, tente com outro usuário!');
     }
 
-    const salt = await bcrypt.genSalt(12)
-    const passwordHash = await bcrypt.hash(password, salt)
+    const salt = await bcrypt.genSalt(12);
+    const passwordHash = await bcrypt.hash(password, salt);
 
     try{
         new userModel({
-            name,
-            username,
-            email,
+            name: name,
+            username: username,
+            email: email,
             password: passwordHash
-        }).save().then(res.json('usuario criado com sucesso!'))
+        }).save().then(res.redirect('/'));
     } catch(error){
-        res.json(error + 'ao criar usuário')
+        res.json("Erro ao criar usuário" + error);
     }
 }
 
@@ -54,10 +53,10 @@ async function signin (req, res){
 
         req.session.user = user
 
-        res.cookie('token_acesso', tokenBearrer, { maxAge: 3600000})
-        res.redirect('/')
+        res.cookie('token_acesso', tokenBearrer, { maxAge: 3600000});
+        res.redirect('/');
     } catch(error){
-        res.status(422).json('autenticação não funcionou')
+        res.status(422).json('autenticação não funcionou');
     }
 }
 

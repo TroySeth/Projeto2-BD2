@@ -20,7 +20,7 @@ async function create (req, res){
 // Função de sincronizar notas encontradas no banco
 async function findAll (req, res){
     await noteModel.find().lean().then((Note) => {
-        res.render('partials/initial', {Note: Note});
+        res.render('partials/initial', {layout: 'main', Note: Note});
         console.log("Notas sincronizadas.");
     }).catch((error) => {
         console.log("Falha ao recuperar as notas: " + error );
