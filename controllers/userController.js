@@ -5,12 +5,25 @@ const jwt = require('jsonwebtoken')
 async function create (req, res){
     const {name, username, email, password} = req.body
 
+    const haveEmail = await userModel.findOne({email: email})
+    const haveUser = await userModel.findOne({username: username})
+
+    if(haveEmail){
+        return res.status(422).json('email já cadastrado, tente com outro email!')
+    }
+    if(haveUser){
+        return res.status(422).json('usuário já existe, tente com outro usuário!')
+    }
+
+    const salt = await bcrypt.genSalt(12)
+    const passwordHash = await bcrypt.hash(password, salt)
+
     try{
         new userModel({
             name,
             username,
             email,
-            password
+            password: passwordHash
         }).save().then(res.json('usuario criado com sucesso!'))
     } catch(error){
         res.json(error + 'ao criar usuário')
@@ -24,7 +37,7 @@ async function signin (req, res){
     if(!user){
         return res.status(422).json('usuário não encontrado!')
     }
-    const checkPassword = password == user.password
+    const checkPassword = await bcrypt.compare(password, user.password)
     if(!checkPassword){
         return res.status(422).json('Senha inválida!')
     }
@@ -66,4 +79,4 @@ async function isAuthenticated (req, res, next){
     }
 }
 
-module.exports = {create, signin}
+module.exports = {create, signin, isAuthenticated}
