@@ -13,5 +13,5 @@ router.route('/busca').post((req, res) => noteController.findText(req, res));
 // Routes user
 router.route('/register').post((req, res) => userController.create(req, res));
 router.route('/signin').post((req, res) => userController.signin(req, res))
-
+router.route('/signout').get((req, res) => userController.signout(req, res))
 module.exports = router;

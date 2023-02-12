@@ -61,6 +61,12 @@ async function signin (req, res){
     }
 }
 
+async function signout (req, res){
+    req.session.destroy()
+    res.clearCookie('token_acesso')
+    res.redirect('/')
+}
+
 async function isAuthenticated (req, res, next){
     const { token_acesso } = req.cookies
     if(token_acesso){
@@ -79,4 +85,4 @@ async function isAuthenticated (req, res, next){
     }
 }
 
-module.exports = {create, signin, isAuthenticated}
+module.exports = {create, signin, signout, isAuthenticated}
