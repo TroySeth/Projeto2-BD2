@@ -32,8 +32,12 @@ header{
     align-items: center;
     justify-content: space-between;
 }
-#cabecalho h1{
+#cabecalho h1 a{
     color: #BF4E63;
+    text-decoration: none;
+}
+#cabecalho h1 a:hover{
+    color: #e77d91;
 }
 #cabecalho img{
     width: 30px;
