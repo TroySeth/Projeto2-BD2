@@ -42,45 +42,45 @@ async function signin (req, res){
     }
     
     try{
-        const secret = process.env.SECRET
+        const secret = process.env.SECRET;
         const token = jwt.sign({
             id: user.id,
             expiresIn: 3600
         },
         secret
     )
-        const tokenBearrer = `Bearer ${token}`
+        const tokenBearrer = `Bearer ${token}`;
 
-        req.session.user = user
+        req.session.user = user;
 
         res.cookie('token_acesso', tokenBearrer, { maxAge: 3600000});
-        res.redirect('/');
+        res.redirect('/notes');
     } catch(error){
-        res.status(422).json('autenticação não funcionou');
+        res.status(422).json('Autenticação não funcionou');
     }
 }
 
 async function signout (req, res){
-    req.session.destroy()
-    res.clearCookie('token_acesso')
-    res.redirect('/')
+    req.session.destroy();
+    res.clearCookie('token_acesso');
+    res.redirect('/');
 }
 
 async function isAuthenticated (req, res, next){
-    const { token_acesso } = req.cookies
+    const { token_acesso } = req.cookies;
     if(token_acesso){
         try{
-            const [, token] = access_token.split(' ')
-            await jwt.verify(token, process.env.SECRET)
+            const [, token] = access_token.split(' ');
+            await jwt.verify(token, process.env.SECRET);
 
-            return next()
+            return next();
         } catch(e){
-            req.session.user = null
-            return res.redirect('/signin')
+            req.session.user = null;
+            return res.redirect('/notes');
         }
     } else{
-        req.session.user = null
-        return res.redirect('/signin')
+        req.session.user = null;
+        return res.redirect('/notes');
     }
 }
 

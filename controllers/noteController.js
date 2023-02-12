@@ -8,10 +8,7 @@ async function create (req, res){
             title: req.body.title,
             content: req.body.content,
             date: noteModel.date,
-        }).save();
-        setTimeout(function() {
-            res.status(201).redirect('/');
-        }, 2000);
+        }).save().then(res.status(201).redirect('/notes'));
     } catch(error){
         console.log("Erro ao criar nota:" + error);
     }
@@ -20,7 +17,8 @@ async function create (req, res){
 // Função de sincronizar notas encontradas no banco
 async function findAll (req, res){
     await noteModel.find().lean().then((Note) => {
-        res.render('partials/initial', {layout: 'main', Note: Note});
+        const username = req.session.user.username;
+        res.render('partials/notes/initial', {layout: 'notes', username: username, Note: Note});
         console.log("Notas sincronizadas.");
     }).catch((error) => {
         console.log("Falha ao recuperar as notas: " + error );
@@ -38,7 +36,7 @@ async function findText (req, res){
     ).sort( 
         {  score: { $meta : 'textScore' } }
     ).lean().then((Note) => {
-        res.render('partials/initial', {Note: Note});
+        res.render('partials/notes/initial', {Note: Note});
         console.log("Notas sincronizadas.");
     })
     
@@ -47,10 +45,8 @@ async function findText (req, res){
 // Função de editar notas do banco
 async function editNote (req, res){
     try{
-        await noteModel.updateOne({_id: req.body.id},{title: req.body.title, content: req.body.content});
-        setTimeout(function() {
-            res.status(201).redirect('/');
-        }, 1000);
+        await (await noteModel.updateOne({_id: req.body.id},{title: req.body.title, content: req.body.content}))
+        .then(res.status(201).redirect('/notes'));
     } catch(error){
         console.log("Falha ao editar nota: " + error);
     }
@@ -58,13 +54,12 @@ async function editNote (req, res){
 
 // Função de excluir notas do banco
 async function destroyNote (req, res){
-        await noteModel.deleteOne({_id: req.body.id}).then(() => {
-            setTimeout(function() {
-                res.status(200).redirect('/');
-            }, 500);
-    }).catch((error) => {
-        console.log("Erro ao deletar nota." + error);
+    try{
+        await noteModel.deleteOne({_id: req.body.id})
+        .then(res.status(200).redirect('/notes'));
+    } catch(error){
+        console.log("Erro ao deletar nota. " + error);
     }
-)};
+};
 
 module.exports = {create, findAll, editNote, destroyNote, findText};
