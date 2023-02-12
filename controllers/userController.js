@@ -17,4 +17,18 @@ async function create (req, res){
     }
 }
 
-module.exports = {create}
+async function signin (req, res){
+    const {username, password} = req.body
+
+    const user = await userModel.findOne({username: username})
+    if(!user){
+        return res.status(422).json('usuário não encontrado!')
+    }
+    const checkPassword = password == user.password
+    if(!checkPassword){
+        return res.status(422).json('Senha inválida!')
+    }
+    res.json(username + ' está logado!')
+}
+
+module.exports = {create, signin}
