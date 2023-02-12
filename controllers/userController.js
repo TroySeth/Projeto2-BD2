@@ -28,12 +28,29 @@ async function signin (req, res){
     if(!checkPassword){
         return res.status(422).json('Senha inválida!')
     }
-    res.json(username + ' está logado!')
+    
+    try{
+        const secret = process.env.SECRET
+        const token = jwt.sign({
+            id: user.id,
+            expiresIn: 3600
+        },
+        secret
+    )
+        const tokenBearrer = `Bearer ${token}`
+
+        //req.session.user = user
+
+        res.cookie('token_acesso', tokenBearrer, { maxAge: 3600000})
+        res.redirect('/')
+    } catch(error){
+        res.status(422).json('autenticação não funcionou')
+    }
 }
 
 async function isAuthenticated (req, res, next){
-    const { access_token } = req.cookies
-    if(access_token){
+    const { token_acesso } = req.cookies
+    if(token_acesso){
         try{
             const [, token] = access_token.split(' ')
             await jwt.verify(token, process.env.SECRET)
