@@ -3,10 +3,12 @@ const app = express();
 const db = require('./db/db');
 const {handlebars, engine} = require('express-handlebars');
 const noteController = require('./controllers/noteController');
+const cookieParser = require('cookie-parser');
 
 app.use(express.urlencoded({ extended: true }));
-//app.use(express.json())
+app.use(express.json())
 app.use(express.static(__dirname));
+app.use(cookieParser());
 
 // Connecting to the database
 db.Connect();
