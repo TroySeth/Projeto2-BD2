@@ -1,0 +1,59 @@
+{{#if username}}
+<header>
+  <div id="cabecalho" class="d-flex">
+    <h1 class="flex-grow-1"><a href="/">iNote</a></h1>
+    <a href="/notes" class="d-flex"><h6 class="mb-0 mr-2 mt-1 border-0 active disabled text-white-50">Olá, </h6>
+    <h5 class="text-white-50 mb-1 mt-0"><strong>{{username}}</strong></h5></a>
+    <figure class="ml-5">
+      <a href="/signout">
+        <img src="./source/img/sair.png">
+        <figcaption>Sair</figcaption>
+      </a>
+    </figure>
+    <figure class="ml-3">
+      <a href="/register">
+        <img src="./source/img/add-user.png">
+        <figcaption>Cadastrar</figcaption>
+      </a>
+    </figure>
+  </div>
+</header>
+
+{{else}}
+<header>
+  <div id="cabecalho" class="d-flex">
+    <h1 class="flex-grow-1"><a href="/">iNote</a></h1>
+    <figure>
+      <div class="btn-group p-0">
+        <button type="button" class="border-0 bg-transparent text-light"
+          data-toggle="dropdown">
+          <a href="">
+            <img src="./source/img/entrar.png">
+            <figcaption>Entrar</figcaption>
+          </a>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+          <form class="px-3 py-2" action="/signin" method="Post">
+            <div class="form-group mt-5">
+              <input type="text" class="form-control" name="username"
+                placeholder="Username">
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control" name="password"
+                placeholder="Senha">
+            </div>
+            <button type="submit" class="btn btn-primary">Entrar</button>
+          </form>
+        </div>
+      </div>
+    </figure>
+    <figure class="ml-3">
+      <a href="/register">
+        <img src="./source/img/add-user.png">
+        <figcaption>Cadastrar</figcaption>
+      </a>
+    </figure>
+  </div>
+</header>
+
+{{/if}}
