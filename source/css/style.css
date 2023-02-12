@@ -36,6 +36,12 @@ header{
     color: #BF4E63;
     text-decoration: none;
 }
+#cabecalho a{
+    text-decoration: none;
+}
+#cabecalho a:hover{
+    color: #fff;
+}
 #cabecalho h1 a:hover{
     color: #e77d91;
 }
