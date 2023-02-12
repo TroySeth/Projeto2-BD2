@@ -9,7 +9,7 @@ const MongoStore = require('connect-mongo')
 
 const mongoDBurl = 'mongodb+srv://leonardo:VuvQtFQXwvPnk90W@cluster0.fcutvj8.mongodb.net/?retryWrites=true&w=majority'
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json())
+app.use(express.json());
 app.use(express.static(__dirname));
 app.use(cookieParser());
 app.use(
@@ -27,7 +27,7 @@ app.use(
 db.Connect();
 
 // Handlebars
-app.engine('handlebars', engine({defaultLayout: 'main'}));
+app.engine('handlebars', engine({layout: false}));
 app.set('view engine', 'handlebars');
 
 // Using routes
