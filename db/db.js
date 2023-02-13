@@ -6,13 +6,14 @@ require('dotenv').config();
 const NEO4J_URI = process.env.NEO4J_URI;
 const NEO4J_USER = process.env.NEO4J_USER;
 const NEO4J_PASSWORD = process.env.NEO4J_PASSWORD;
-
+const uri = NEO4J_URI;
+const user = NEO4J_USER;
+const password = NEO4J_PASSWORD;
+const driver = neo4j.driver(uri, neo4j.auth.basic(user, password));
+const sessionAura = driver.session();
 const connectNeo4j = async function(){
     try{ 
-        const uri = NEO4J_URI;
-        const user = NEO4J_USER;
-        const password = NEO4J_PASSWORD;
-        const driver = neo4j.driver(uri, neo4j.auth.basic(user, password));
+        driver;
         console.log("Conectou ao Neo4j!");
     } catch(err){
         console.log(err);
@@ -35,4 +36,4 @@ const connectMongoDB = async function (){
     }).catch((err) => console.log(err));
 }
 
-module.exports = {ConnectMongoDB: connectMongoDB, ConnectNeo4j: connectNeo4j};
+module.exports = {ConnectMongoDB: connectMongoDB, ConnectNeo4j: connectNeo4j, sessionAura};

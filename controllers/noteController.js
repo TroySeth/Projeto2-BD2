@@ -8,6 +8,7 @@ async function create (req, res){
             title: req.body.title,
             content: req.body.content,
             date: noteModel.date,
+            marker: req.session.user.marker
         }).save().then(res.status(201).redirect('/notes'));
     } catch(error){
         console.log("Erro ao criar nota:" + error);
