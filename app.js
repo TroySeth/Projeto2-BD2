@@ -2,10 +2,9 @@ const express = require('express');
 const app = express();
 const db = require('./db/db');
 const {handlebars, engine} = require('express-handlebars');
-const noteController = require('./controllers/noteController');
 const cookieParser = require('cookie-parser');
-const session = require('express-session')
-const MongoStore = require('connect-mongo')
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 const mongoDBurl = 'mongodb+srv://leonardo:VuvQtFQXwvPnk90W@cluster0.fcutvj8.mongodb.net/?retryWrites=true&w=majority'
 app.use(express.urlencoded({ extended: true }));
@@ -23,8 +22,9 @@ app.use(
     })
 );
 
-// Connecting to the database
-db.Connect();
+// Connecting to the databases
+db.ConnectNeo4j();
+db.ConnectMongoDB();
 
 // Handlebars
 app.engine('handlebars', engine({layout: false}));
