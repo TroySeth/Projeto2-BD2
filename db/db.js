@@ -36,4 +36,4 @@ const connectMongoDB = async function (){
     }).catch((err) => console.log(err));
 }
 
-module.exports = {ConnectMongoDB: connectMongoDB, ConnectNeo4j: connectNeo4j, sessionAura};
+module.exports = {ConnectMongoDB: connectMongoDB, ConnectNeo4j: connectNeo4j, driver, sessionAura};

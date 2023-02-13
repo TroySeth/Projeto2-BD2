@@ -1,15 +1,33 @@
 const {Note: noteModel, Note} = require('../models/Note');
 const db = require('../db/db');
+let {driver, sessionAura} = require('../db/db');
+
+// Making random marker
+async function getMarker(){
+    marker = Math.floor(Math.random() * 10000000000);
+    const markerExists = await noteModel.findOne({marker: marker});
+    if(markerExists){
+        getMarker();
+    }
+    return marker;
+}
 
 // Função de criar notas
 async function create (req, res){
+    getMarker();
     try{
         new noteModel({
             title: req.body.title,
             content: req.body.content,
             date: noteModel.date,
-            marker: req.session.user.marker
-        }).save().then(res.status(201).redirect('/notes'));
+            marker: marker
+        }).save().then(res.status(201).redirect('/notes')).then( async function(){
+            const note = await noteModel.find({marker: marker});
+            const person = req.session.user;
+            const createNote = await sessionAura.run(`CREATE (n :Note {marker: ${marker}})`)
+            .then(sessionAura = driver.session())
+            .then(await sessionAura.run(`MATCH (p: Person{username: "${person.username}"}) OPTIONAL MATCH (n: Note{marker: ${marker}}) CREATE (p)-[:CRIOU]->(n)`));
+        })
     } catch(error){
         console.log("Erro ao criar nota:" + error);
     }

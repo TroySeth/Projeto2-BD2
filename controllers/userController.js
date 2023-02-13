@@ -4,16 +4,6 @@ const jwt = require('jsonwebtoken');
 const session = require('express-session');
 const {sessionAura} = require('../db/db');
 
-// Making random marker
-async function getMarker(){
-    marker = Math.floor(Math.random() * 10000000000);
-    const markerExists = await userModel.findOne({marker: marker});
-    if(markerExists){
-        getMarker();
-    }
-    return marker;
-}
-
 async function create (req, res){
     const {name, username, email, password} = req.body;
     const haveEmail = await userModel.findOne({email: email});
@@ -29,19 +19,16 @@ async function create (req, res){
     const salt = await bcrypt.genSalt(12);
     const passwordHash = await bcrypt.hash(password, salt);
 
-    getMarker();
-
     try{
         new userModel({
             name: name,
             username: username,
             email: email,
-            password: passwordHash,
-            marker: marker
+            password: passwordHash
         }).save().then(res.redirect('/'));
         try {
             const person = req.body;
-            const createNode = await sessionAura.run(`CREATE (p :Person {username: '${person.username}', marker: ${marker}})`);
+            const createNode = await sessionAura.run(`CREATE (p: Person{username: '${person.username}'})`);
         } catch (error) {
             console.error(`Something went wrong: ${error}`);
         }
