@@ -4,12 +4,12 @@ let {driver, sessionAura} = require('../db/db');
 
 // Making random marker
 async function getMarker(){
-    marker = Math.floor(Math.random() * 10000000000);
-    const markerExists = await noteModel.findOne({marker: marker});
+    indicator = Math.floor(Math.random() * 10000000000);
+    const markerExists = await noteModel.findOne({marker: indicator});
     if(markerExists){
         getMarker();
     }
-    return marker;
+    return indicator;
 }
 
 // Função de criar notas
@@ -20,13 +20,12 @@ async function create (req, res){
             title: req.body.title,
             content: req.body.content,
             date: noteModel.date,
-            marker: marker
+            marker: indicator
         }).save().then(res.status(201).redirect('/notes')).then( async function(){
-            const note = await noteModel.find({marker: marker});
             const person = req.session.user;
-            const createNote = await sessionAura.run(`CREATE (n :Note {marker: ${marker}})`)
+            const createNote = await sessionAura.run(`CREATE (n :Note{marker: ${indicator}})`)
             .then(sessionAura = driver.session())
-            .then(await sessionAura.run(`MATCH (p: Person{username: "${person.username}"}) OPTIONAL MATCH (n: Note{marker: ${marker}}) CREATE (p)-[:CRIOU]->(n)`));
+            .then(await sessionAura.run(`MATCH (p: Person{username: "${person.username}"}) OPTIONAL MATCH (n: Note{marker: ${indicator}}) CREATE (p)-[:CRIOU]->(n)`));
         })
     } catch(error){
         console.log("Erro ao criar nota:" + error);
@@ -35,7 +34,10 @@ async function create (req, res){
 
 // Função de sincronizar notas encontradas no banco
 async function findAll (req, res){
-    await noteModel.find().lean().then((Note) => {
+    const username = req.session.user.username;
+    const findNode = await sessionAura.run(`MATCH (p:Person) WHERE p.username = "${username}" OPTIONAL MATCH (p)-[:CRIOU]->(n:Note) RETURN n`);
+    const notes = findNode.records.forEach(r => console.log(r._fields[0].properties.marker.low));
+    await noteModel.find({marker: notes}).lean().then((Note) => {
         const username = req.session.user.username;
         res.render('partials/notes/initial', {layout: 'notes', username: username, Note: Note});
         console.log("Notas sincronizadas.");
@@ -74,8 +76,11 @@ async function editNote (req, res){
 // Função de excluir notas do banco
 async function destroyNote (req, res){
     try{
+        const note = noteModel.findOne({_id: req.body.id});
         await noteModel.deleteOne({_id: req.body.id})
-        .then(res.status(200).redirect('/notes'));
+        .then(res.status(200).redirect('/notes')).then(async function(){
+            const excludeNode = `MATCH (n:Note) WHERE n.marker = ${note.schema.tree.marker} DETACH DELETE n`
+        });
     } catch(error){
         console.log("Erro ao deletar nota. " + error);
     }
