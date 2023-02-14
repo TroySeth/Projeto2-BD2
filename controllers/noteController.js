@@ -23,7 +23,7 @@ async function create (req, res){
             marker: indicator
         }).save().then(res.status(201).redirect('/notes')).then( async function(){
             const person = req.session.user;
-            const createNote = await sessionAura.run(`CREATE (n :Note{marker: ${indicator}})`)
+            const createNote = await sessionAura.run(`CREATE (n: Note{marker: ${indicator}})`)
             .then(sessionAura = driver.session())
             .then(await sessionAura.run(`MATCH (p: Person{username: "${person.username}"}) OPTIONAL MATCH (n: Note{marker: ${indicator}}) CREATE (p)-[:CRIOU]->(n)`));
         })
@@ -35,9 +35,10 @@ async function create (req, res){
 // Função de sincronizar notas encontradas no banco
 async function findAll (req, res){
     const username = req.session.user.username;
+    sessionAura = driver.session();
     const findNode = await sessionAura.run(`MATCH (p:Person) WHERE p.username = "${username}" OPTIONAL MATCH (p)-[:CRIOU]->(n:Note) RETURN n`);
-    const notes = findNode.records.forEach(r => console.log(r._fields[0].properties.marker.low));
-    await noteModel.find({marker: notes}).lean().then((Note) => {
+    const notes = findNode.records;
+    await noteModel.find().lean().then((Note) => {
         const username = req.session.user.username;
         res.render('partials/notes/initial', {layout: 'notes', username: username, Note: Note});
         console.log("Notas sincronizadas.");
@@ -76,10 +77,11 @@ async function editNote (req, res){
 // Função de excluir notas do banco
 async function destroyNote (req, res){
     try{
-        const note = noteModel.findOne({_id: req.body.id});
-        await noteModel.deleteOne({_id: req.body.id})
-        .then(res.status(200).redirect('/notes')).then(async function(){
-            const excludeNode = `MATCH (n:Note) WHERE n.marker = ${note.schema.tree.marker} DETACH DELETE n`
+        await noteModel.deleteOne({marker: req.body.marker})
+        .then(res.status(200).redirect('/notes'))
+        .then(async function(){
+            sessionAura = driver.session();
+            const excludeNode = sessionAura.run(`MATCH (n:Note) WHERE n.marker = ${req.body.marker} DETACH DELETE n`)
         });
     } catch(error){
         console.log("Erro ao deletar nota. " + error);
