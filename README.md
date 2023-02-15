@@ -15,7 +15,7 @@ Consiste em uma aplicação web de anotações pessoais
     DB_PASSWORD = Sua senha no Atlas
     DB_NAME = Nome da sua base de dados no MongoDB
     DB_CODE = Código da sua base de dados no MongoDB
-    SECRET = Código secreto para ser usado na autenticação e criptografia de senha (crie o seu, recomendamos que ele tenha pelo menos 15 caractes entre letras e números).
+    SECRET = Código secreto para ser usado na autenticação e criptografia de senha (crie o seu, recomendamos que ele tenha pelo menos 15 caractes entre letras e números)
     NEO4J_URI = URI servida pelo Neo4j Aura
     NEO4J_USER = Usuário no Neo4j Aura
     NEO4J_PASSWORD = Senha da sua base de dados no Neo4j Aura
@@ -27,8 +27,11 @@ Consiste em uma aplicação web de anotações pessoais
 ## **Como utilizar**
 A aplicação tem fácil uso e simples interface.
 
-* Com o botão central **Nova Anotação** adiciona-se um anotação
-* Acima de cada anotação adicionada há os ícones de **Editar** e **Excluir** a anotação
+* Ao acessar a url você verá uma página com botões superiores à direita, **Entrar** e **Cadastrar**.
+* Se você já se cadastrou então vá em **Entrar** e passe seus dados. Caso contrário vá em **Cadastrar**, se cadastre e depois entre com seus dados.
+* Conectado com o seu usuário, com o botão central **Nova Anotação** adiciona-se um anotação.
+* Com a barra central de pesquisa faz-se uma pesquisa entre suas notas.
+* Acima de cada anotação adicionada há os ícones de **Editar** e **Excluir** a anotação.
 
 ## **Quem são os envolvidos**
 [``Daniel Athur``](https://github.com/dxArtur) | [``Guilherme Costa``](https://github.com/TroySeth) | [``Leonardo Mendes``](https://github.com/leomendes18) 
