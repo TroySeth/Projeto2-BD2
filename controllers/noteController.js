@@ -22,12 +22,14 @@ async function create (req, res){
             content: req.body.content,
             date: noteModel.date,
             marker: indicator
-        }).save().then(res.status(201).redirect('/notes')).then( async function(){
+        }).save()
+        .then( async function(){
             const person = req.session.user;
             const createNote = await sessionAura.run(`CREATE (n: Note{marker: "${indicator}"})`)
             .then(sessionAura = driver.session())
             .then(await sessionAura.run(`MATCH (p: Person{username: "${person.username}"}) OPTIONAL MATCH (n: Note{marker: "${indicator}"}) CREATE (p)-[:CRIOU]->(n)`));
         })
+        .then(res.status(201).redirect('/notes'))
     } catch(error){
         console.log("Erro ao criar nota:" + error);
     } 
