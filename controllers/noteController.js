@@ -41,15 +41,19 @@ async function create (req, res){
 // Função de sincronizar notas encontradas no banco
 async function findAll (req, res){
     const username = req.session.user;
-    sessionAura = driver.session();
-    const findNode = await sessionAura.run(`MATCH (p:Person) WHERE p.username = "${username.username}" OPTIONAL MATCH (p)-[:CRIOU]->(n:Note) RETURN n.marker`);
-    const notes = findNode.records.map(record => record.get('n.marker'));
-    await noteModel.find({marker: notes}).lean().then(Note=> {
-        res.render('partials/notes/initial', {layout: 'notes', username: username.username, Note: Note});
-    }).catch((error) => {
-        console.log("Falha ao recuperar as notas: " + error );
+    if(username === undefined){
+        res.redirect('/notes');
+    } else{
+        sessionAura = driver.session();
+        const findNode = await sessionAura.run(`MATCH (p:Person) WHERE p.username = "${username.username}" OPTIONAL MATCH (p)-[:CRIOU]->(n:Note) RETURN n.marker`);
+        const notes = findNode.records.map(record => record.get('n.marker'));
+        await noteModel.find({marker: notes}).lean().then(Note=> {
+            res.render('partials/notes/initial', {layout: 'notes', username: username.username, Note: Note});
+        }).catch((error) => {
+            console.log("Falha ao recuperar as notas: " + error );
+        })
     }
-)};
+};
 
 // Função de pesquisar por palavras
 async function findText (req, res){
