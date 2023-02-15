@@ -1,4 +1,4 @@
-# **Banco de Dados II - Projeto 2**
+# **Banco de Dados II - Projeto 3**
 
 ## **Motivação**
 O presente projeto tem o intuito de colocar em prática os conhecimento acerca de bancos de dados NoSQL.
@@ -12,9 +12,13 @@ Consiste em uma aplicação web de anotações pessoais
 
   ```
     DB_USER = Seu usuário no Atlas
-    DB_PASSWORD = Sua senha
-    DB_NAME = Nome da sua base de dados
-    DB_CODE = Código da sua base de dados
+    DB_PASSWORD = Sua senha no Atlas
+    DB_NAME = Nome da sua base de dados no MongoDB
+    DB_CODE = Código da sua base de dados no MongoDB
+    SECRET = Código secreto para ser usado na autenticação e criptografia de senha (crie o seu, recomendamos que ele tenha pelo menos 15 caractes entre letras e números).
+    NEO4J_URI = URI servida pelo Neo4j Aura
+    NEO4J_USER = Usuário no Neo4j Aura
+    NEO4J_PASSWORD = Senha da sua base de dados no Neo4j Aura
   ```
 3. Digite ``npm i`` no terminal.
 4. Digite ``npm start`` no terminal.
