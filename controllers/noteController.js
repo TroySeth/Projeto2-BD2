@@ -82,7 +82,7 @@ async function destroyNote (req, res){
         .then(res.status(200).redirect('/notes'))
         .then(async function(){
             sessionAura = driver.session();
-            const excludeNode = sessionAura.run(`MATCH (n:Note) WHERE n.marker = ${req.body.marker} DETACH DELETE n`)
+            const excludeNode = sessionAura.run(`MATCH (n:Note) WHERE n.marker = "${req.body.marker}" DETACH DELETE n`)
         });
     } catch(error){
         console.log("Erro ao deletar nota. " + error);
