@@ -8,7 +8,7 @@ const noteSchema = mongoose.Schema({
     title: String,
     content: String,
     date: {type: Date, default: date},
-    marker: Number
+    marker: String
 });
 
 noteSchema.index(
