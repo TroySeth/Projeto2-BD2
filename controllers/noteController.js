@@ -57,19 +57,15 @@ async function findAll (req, res){
 
 // Função de pesquisar por palavras
 async function findText (req, res){
-    console.log(req.body.pesquisa)
-
-    const filtrado = await noteModel.find(
-        { $text: { $search : req.body.pesquisa} },  
-        { score : { $meta: "textScore" } 
-        } 
-    ).sort( 
-        {  score: { $meta : 'textScore' } }
-    ).lean().then((Note) => {
-        res.render('partials/notes/initial', {Note: Note});
-        console.log("Notas sincronizadas.");
-    })
-    
+    const username = req.session.user;
+    sessionAura = driver.session();
+    const findNode = await sessionAura.run(`MATCH (p:Person) WHERE p.username = "${username.username}" OPTIONAL MATCH (p)-[:CRIOU]->(n:Note) RETURN n.marker`);
+    const notes = findNode.records.map(record => record.get('n.marker'));
+    const filtrado = await noteModel.find({marker: { $in: notes }, $text: { $search: req.body.pesquisa}},{score: { $meta: "textScore" }}
+    ).sort({score: { $meta : 'textScore' }}
+    ).lean().then(Note=> {
+        res.render('partials/notes/initial', {layout: 'notes', username: username.username, Note: Note});
+    });
 }
 
 // Função de editar notas do banco
